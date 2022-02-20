@@ -17,26 +17,6 @@ class LinkAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper): void
     {
-        // $form->add('original', TextType::class)
-        //     ->add('url_key', TextType::class)
-        //     // ->add('shortened', ModelHiddenType::class, ['data' => ''])        
-        //     ->add('shortened', null, ['disabled' => true])
-        //     ->add('tags', ModelType::class, [
-        //         'class' => Tag::class,
-        //         'multiple' => true,
-        //         'property' => 'name',
-        //         'required' => false,
-        //         'by_reference' => false
-        //     ])
-        //     ->getFormBuilder()->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event){
-        //         $data = $event->getData();
-        //         $data['shortened'] = $_SERVER['SERVER_NAME']. '/'. $data['url_key'];
-        //         // dump($data);
-        //         // die();
-        //         $event->setData($data);
-        //         return $event;
-        //     });
-
         $builder = $formMapper->getFormBuilder();
         $ff = $builder->getFormFactory();
         $formMapper->getFormBuilder()->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($ff) {
@@ -72,6 +52,7 @@ class LinkAdmin extends AbstractAdmin
         $list->addIdentifier('original')
         ->add('url_key')
         ->add('shortened')
+        ->add('visits')
         ->add('tags', ModelType::class, array('associated_property' => 'name'))
         ->add('_action', 'actions', array(
             'actions' => array(
@@ -87,7 +68,9 @@ class LinkAdmin extends AbstractAdmin
     {
         $show->add('original')
         ->add('url_key')
+        ->add('visits')
         ->add('shortened')
         ->add('tags', 'array');
     }
+
 }
