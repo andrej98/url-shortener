@@ -1,0 +1,25 @@
+sonata_admin:
+  title: "Sonata Admin"
+  dashboard:
+    blocks:
+      - { type: sonata.admin.block.admin_list, position: left }
+
+sonata_block:
+  blocks:
+    sonata.admin.block.admin_list:
+      contexts: [admin]
+#   librinfo_crm.admin.organism:
+#     class: Librinfo\CRMBundle\Admin\OrganismAdmin
+#     arguments:
+#       [~, Librinfo\CRMBundle\Entity\Organism, LibrinfoCRMBundle:OrganismAdmin]
+#     tags:
+#       - name: sonata.admin
+#         manager_type: orm
+#         group: Customers Relationship Management
+#         label: librinfo.crm.organism_admin.label
+#         label_translator_strategy: blast_core.label.strategy.librinfo
+#     calls:
+#       - [
+#           setTemplate,
+#           [edit, LibrinfoCRMBundle:OrganismAdmin:admin\admin.html.twig],
+#         ] #set a custom edit template

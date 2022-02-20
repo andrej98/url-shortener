@@ -1,0 +1,24 @@
+{% extends '@SonataAdmin/CRUD/base_edit.html.twig' %}
+
+
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+
+
+    $(function(){
+            $('form [id$="shortened"]').readOnly = true;
+
+        document.querySelector('form [id$="shortened"]').disabled= true;
+
+        document.querySelector('form [id$="url_key"]').addEventListener('change', (e) => {
+            $('form [id$="shortened"]').val(window.location.origin + '/' +e.target.value);
+            $('form [id$="shortened"]').readOnly = true;
+
+        });
+
+    }); 
+
+ </script>
+ {% endblock %}
