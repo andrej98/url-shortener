@@ -21,7 +21,7 @@ class LinkAdmin extends AbstractAdmin
         $ff = $builder->getFormFactory();
         $formMapper->getFormBuilder()->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use ($ff) {
             $data = $event->getData();
-            $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://' ;
+            $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://' ;
         
             $data['shortened'] = $protocol . $_SERVER['SERVER_NAME']. '/'. $data['url_key'];
             $event->setData($data);
