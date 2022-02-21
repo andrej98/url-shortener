@@ -29,6 +29,12 @@ class Tag
      */
     private $links;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tags")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user_id;
+
     public function __construct()
     {
         $this->links = new ArrayCollection();
@@ -74,6 +80,18 @@ class Tag
         if ($this->links->removeElement($link)) {
             $link->removeTag($this);
         }
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(?User $user_id): self
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }

@@ -13,7 +13,6 @@ use App\Entity\Tag;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Security;
 
 class LinkAdmin extends AbstractAdmin
