@@ -12,9 +12,14 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use App\Entity\Tag;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Security;
 
 class LinkAdmin extends AbstractAdmin
 {
+    private $security;
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $builder = $formMapper->getFormBuilder();
@@ -71,6 +76,38 @@ class LinkAdmin extends AbstractAdmin
         ->add('visits')
         ->add('shortened')
         ->add('tags', 'array');
+    }
+
+    public function __construct(?string $code = null, ?string $class = null, ?string $baseControllerName = null, Security $security) 
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->security = $security;
+    }
+
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+
+        $user = $this->security->getUser();
+
+        $rootAlias = current($query->getRootAliases());
+
+        $query->andWhere(
+            $query->expr()->eq($rootAlias . '.url_key', ':url_key')
+        );
+        $query->setParameter('url_key', 'abcde');
+
+        // dump($query);
+        // die();
+
+        return $query;
+    }
+
+    protected function prePersist($link): void
+    {
+        parent::prePersist($link);
+        $user = $this->security->getUser();
+        $link->setUser($user->getId());
     }
 
 }
