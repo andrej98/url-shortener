@@ -37,6 +37,7 @@ class Link
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("/"^[a-zA-Z0-9]*$"/")
      */
     private $url_key;
 
