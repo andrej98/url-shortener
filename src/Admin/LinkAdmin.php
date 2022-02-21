@@ -20,6 +20,12 @@ class LinkAdmin extends AbstractAdmin
 {
     private $security;
 
+    public function __construct(?string $code = null, ?string $class = null, ?string $baseControllerName = null, Security $security) 
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->security = $security;
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $builder = $formMapper->getFormBuilder();
@@ -78,12 +84,6 @@ class LinkAdmin extends AbstractAdmin
         ->add('tags', 'array');
     }
 
-    public function __construct(?string $code = null, ?string $class = null, ?string $baseControllerName = null, Security $security) 
-    {
-        parent::__construct($code, $class, $baseControllerName);
-        $this->security = $security;
-    }
-
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
@@ -93,12 +93,9 @@ class LinkAdmin extends AbstractAdmin
         $rootAlias = current($query->getRootAliases());
 
         $query->andWhere(
-            $query->expr()->eq($rootAlias . '.url_key', ':url_key')
+            $query->expr()->eq($rootAlias . '.user_id', ':user')
         );
-        $query->setParameter('url_key', 'abcde');
-
-        // dump($query);
-        // die();
+        $query->setParameter('user', $user->getId());
 
         return $query;
     }
@@ -107,7 +104,6 @@ class LinkAdmin extends AbstractAdmin
     {
         parent::prePersist($link);
         $user = $this->security->getUser();
-        $link->setUser($user->getId());
+        $link->setUserId($user);
     }
-
 }

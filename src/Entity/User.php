@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,6 +42,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Link::class, mappedBy="user_id")
+     */
+    private $links;
+
+    public function __construct()
+    {
+        $this->links = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -125,6 +137,36 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Link>
+     */
+    public function getLinks(): Collection
+    {
+        return $this->links;
+    }
+
+    public function addLink(Link $link): self
+    {
+        if (!$this->links->contains($link)) {
+            $this->links[] = $link;
+            $link->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLink(Link $link): self
+    {
+        if ($this->links->removeElement($link)) {
+            // set the owning side to null (unless already changed)
+            if ($link->getUserId() === $this) {
+                $link->setUserId(null);
+            }
+        }
 
         return $this;
     }
