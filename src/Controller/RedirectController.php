@@ -39,6 +39,12 @@ class RedirectController extends AbstractController
 
         $originalUrl = $link->getOriginal();
 
+        if(isset($_SERVER['HTTP_REFERER'])) {
+            $referer = $_SERVER['HTTP_REFERER'];
+
+            //TODO: save referer to the database
+        }
+        
         return $this->redirect($originalUrl);
     }
 }
