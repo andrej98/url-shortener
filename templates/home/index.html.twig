@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}URL SHORTENER SERVICE{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,18 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>URL SHORTENER ✅</h1>
 
-    This friendly message is coming from:
+    To create your shortened URLs you can go to:
+    {% if is_granted('ROLE_ADMIN') %} 
     <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Andrej/OneDrive - Slovenská technická univerzita v Bratislave/Pracovná plocha/url-shortener/url-shortener/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Andrej/OneDrive - Slovenská technická univerzita v Bratislave/Pracovná plocha/url-shortener/url-shortener/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
+        <li><a href="/admin">Admin Dashboard</a></li>
     </ul>
+    {% else %}
+    <ul>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></code></li>
+    </ul>
+    {% endif %}
 </div>
 {% endblock %}
