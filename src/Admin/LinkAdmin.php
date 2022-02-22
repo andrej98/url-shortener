@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use App\Entity\Tag;
+use App\Entity\Link;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -104,5 +105,12 @@ class LinkAdmin extends AbstractAdmin
         parent::prePersist($link);
         $user = $this->security->getUser();
         $link->setUserId($user);
+    }
+
+    public function toString(object $object): string
+    {
+        return $object instanceof Link
+            ? $object->getOriginal()
+            : 'Link'; // shown in the breadcrumb on the create view
     }
 }

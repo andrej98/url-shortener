@@ -2,6 +2,7 @@
 
 namespace App\Admin;
 
+use App\Entity\Tag;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -63,6 +64,13 @@ class TagAdmin extends AbstractAdmin
         parent::prePersist($tag);
         $user = $this->security->getUser();
         $tag->setUserId($user);
+    }
+
+    public function toString(object $object): string
+    {
+        return $object instanceof Tag
+            ? $object->getName()
+            : 'Tag'; // shown in the breadcrumb on the create view
     }
 
 }
