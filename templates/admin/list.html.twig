@@ -1,0 +1,27 @@
+{% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+
+
+    $(function(){
+        let items = document.querySelectorAll('.sonata-ba-list-field-string');
+        
+        items.forEach(item => {
+            var button = document.createElement('button');
+            button.innerText = 'Copy';
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                var parent = button.parentNode;
+                var text = parent.firstChild.nodeValue.trim();
+                navigator.clipboard.writeText(text);
+            });
+
+            item.appendChild(button);
+        });
+
+    }); 
+
+ </script>
+ {% endblock %}

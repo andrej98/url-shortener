@@ -59,7 +59,7 @@ class LinkAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $list): void
     {        
-        $list->addIdentifier('original')
+        $list->add('original')
         ->add('url_key')
         ->add('shortened')
         ->add('visits')

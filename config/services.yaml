@@ -41,8 +41,14 @@ services:
     calls:
       - [
           setTemplate,
-          [edit, 'admin/admin.html.twig'],
+          [edit, 'admin/admin.html.twig']
         ] #set a custom edit template
+      - [
+        setTemplate,
+        [list, 'admin/list.html.twig']
+      ] #set a custom edit template
+
+
 
   admin.tag:
     class: App\Admin\TagAdmin
